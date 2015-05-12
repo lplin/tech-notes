@@ -12,6 +12,11 @@
 # Without [username](http://stackoverflow.com/questions/6565357/git-push-requires-username-and-password)
 	git remote set-url origin https://lplin@github.com/lplin/scm-test1.git
 
+	[Generating SSH keys](https://help.github.com/articles/generating-ssh-keys/)
+	In the user settings sidebar, click SSH keys.
+
+	SSH Key buttonClick Add S
+
 # [Stash](http://git-scm.com/book/en/Git-Tools-Stashing)
 - To push a new stash onto your stack, run:	`$ git stash`
 - Your working directory is clean: `$ git status`
