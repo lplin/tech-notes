@@ -6,6 +6,7 @@ Now you'll find your .pdf file in ~/PDF.
 # How to check my current version of Linux Mint? [...](http://forums.linuxmint.com/viewtopic.php?f=49&t=23819)
 $ cat /etc/linuxmint/info
 $ inxi -F
+$ cat /etc/issue
 
 # How to Update the Linux Kernel [...](https://delightlylinux.wordpress.com/2014/12/06/how-to-update-the-linux-kernel/)
 
