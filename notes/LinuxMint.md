@@ -1,3 +1,12 @@
+# PDF printer [...](http://superuser.com/questions/156189/how-to-convert-word-doc-to-pdf-in-linux)
+sudo apt-get install cups-pdf
+
+Now you'll find your .pdf file in ~/PDF.
+
+# How to check my current version of Linux Mint? [...](http://forums.linuxmint.com/viewtopic.php?f=49&t=23819)
+$ cat /etc/linuxmint/info
+$ inxi -F
+
 # How to Update the Linux Kernel [...](https://delightlylinux.wordpress.com/2014/12/06/how-to-update-the-linux-kernel/)
 
 

@@ -1,3 +1,0 @@
-OLD=$JAVA_HOME
-export JAVA_HOME=/home/lplin/apps/jdk1.7.0_71
-export PATH=${PATH//$OLD/$JAVA_HOME}
