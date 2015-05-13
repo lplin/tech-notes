@@ -2,9 +2,9 @@
 After the 5.5 version, MariaDB developers decided to start a branch numbered 10, as an attempt to make it clear that MariaDB 10.0 will not import all features from MySQL 5.6; 
 
 # Install
-Download: https://downloads.mariadb.org/
-Mint: https://downloads.mariadb.org/mariadb/repositories/#mirror=jmu&distro=Mint&distro_release=trusty--mint17_qiana&version=10.0
-Linux x86_64: mariadb-10.0.19-linux-x86_64.tar.gz
+- [Download](https://downloads.mariadb.org/)
+- [Mint Version](https://downloads.mariadb.org/mariadb/repositories/#mirror=jmu&distro=Mint&distro_release=trusty--mint17_qiana&version=10.0)
+- Linux x86_64: mariadb-10.0.19-linux-x86_64.tar.gz
 ==> [Installing MariaDB Binary Tarballs](https://mariadb.com/kb/en/mariadb/installing-mariadb-binary-tarballs/)
 
 Installing MariaDB as not root in any directory:
