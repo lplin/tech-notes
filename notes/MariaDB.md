@@ -125,3 +125,9 @@ Installing MariaDB as not root in any directory:
 --pid-file=file_name
 
 # Installing MariaDB Alongside MySQL [...](https://mariadb.com/kb/en/mariadb/installing-mariadb-alongside-mysql/)
+Also need to set in /etc/init.d/mariadb:
+mysqld_pid_file_path=/opt/mariadb-data/mariadb.pid
+
+Setting password:
+mariadb@hp110nr ~ $ ./bin/mysqladmin -u root -h hp110nr --port=3307 password 'rdc-123'
+
