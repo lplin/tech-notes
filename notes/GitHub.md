@@ -10,11 +10,22 @@
 ```
 
 # Without [username](http://stackoverflow.com/questions/6565357/git-push-requires-username-and-password)
-	git remote set-url origin https://lplin@github.com/lplin/scm-test1.git
-
-[Generating SSH keys](https://help.github.com/articles/generating-ssh-keys/)
+Use SSH: [Generating SSH keys](https://help.github.com/articles/generating-ssh-keys/)
 - In the user settings sidebar, click SSH keys.
 - SSH Key buttonClick Add S
+
+	lplin@hp110nr ~/gits/lplin/tech-notes $ git remote set-url origin git@github.com:lplin/tech-notes.git
+	lplin@hp110nr ~/gits/lplin/tech-notes $ git remote -v
+	origin	git@github.com:lplin/tech-notes.git (fetch)
+	origin	git@github.com:lplin/tech-notes.git (push)
+	lplin@hp110nr ~/gits/lplin/tech-notes $ git push
+	Counting objects: 7, done.
+	Delta compression using up to 4 threads.
+	Compressing objects: 100% (4/4), done.
+	Writing objects: 100% (4/4), 478 bytes | 0 bytes/s, done.
+	Total 4 (delta 2), reused 0 (delta 0)
+	To git@github.com:lplin/tech-notes.git
+	   217ca10..d3b4a31  master -> master
 
 # [Stash](http://git-scm.com/book/en/Git-Tools-Stashing)
 - To push a new stash onto your stack, run:	`$ git stash`
