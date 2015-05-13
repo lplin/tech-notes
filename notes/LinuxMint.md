@@ -1,12 +1,16 @@
+# Internal SD card reader not mounted/detected HP realtek rts5227 [...](http://askubuntu.com/questions/492476/internal-sd-card-reader-not-mounted-detected-hp-realtek-rts5227)
+
+
+
 # PDF printer [...](http://superuser.com/questions/156189/how-to-convert-word-doc-to-pdf-in-linux)
 sudo apt-get install cups-pdf
 
 Now you'll find your .pdf file in ~/PDF.
 
 # How to check my current version of Linux Mint? [...](http://forums.linuxmint.com/viewtopic.php?f=49&t=23819)
-$ cat /etc/linuxmint/info
-$ inxi -F
-$ cat /etc/issue
+	$ cat /etc/linuxmint/info
+	$ inxi -F
+	$ cat /etc/issue
 
 # How to Update the Linux Kernel [...](https://delightlylinux.wordpress.com/2014/12/06/how-to-update-the-linux-kernel/)
 
