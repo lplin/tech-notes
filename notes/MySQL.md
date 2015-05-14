@@ -1,3 +1,6 @@
+# Shutdown [...](http://dev.mysql.com/doc/mysql-startstop-excerpt/5.0/en/server-shutdown.html)
+	$ mysqladmin -uroot -prdc-123 shutdown
+
 # How To Calculate The MySQL Database Size [Ref](http://www.mkyong.com/mysql/how-to-calculate-the-mysql-database-size/)
 	Here’s the SQL script to list out the entire databases size
 
