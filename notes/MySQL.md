@@ -1,3 +1,13 @@
+# Monitor MySQL restore progress with pv [...](https://major.io/2010/11/24/monitor-mysql-restore-progress-with-pv/)
+Or [How can I monitor the progress of an import of a large .sql file?](http://dba.stackexchange.com/questions/17367/how-can-i-monitor-the-progress-of-an-import-of-a-large-sql-file)
+
+lplin@dlm47 ~ $ sudo apt-get install pv
+
+mariadb@dlm47 /opt/mariadb-data $ pv ./case_framemf.sql | mysql -urdcapp -p321-rdc case_framemf
+258MB 0:02:22 [ 143kB/s] [=>                                                                                              ]  3% ETA 1:05:39
+
+Doesn't seem to be accurate.
+
 # Shutdown [...](http://dev.mysql.com/doc/mysql-startstop-excerpt/5.0/en/server-shutdown.html)
 	$ mysqladmin -uroot -prdc-123 shutdown
 

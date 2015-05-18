@@ -269,3 +269,98 @@ SHOW VARIABLES LIKE 'skip_networking'; -- OFF
 SHOW VARIABLES LIKE 'secure-auth'; -- Empty
 
 SHOW VARIABLES LIKE 'secure_auth'; -- OFF
+
+# UTF8, OK
+
+	SHOW VARIABLES LIKE 'secure_auth'; -- OFF
+	SELECT * FROM case_framemf.user; -- admin100091
+
+	CREATE DATABASE c6
+	  DEFAULT CHARACTER SET utf8
+	  DEFAULT COLLATE utf8_unicode_ci;
+
+	CREATE TABLE person (
+		BusinessID VARCHAR(255) NOT NULL,
+		NAID VARCHAR(255) NOT NULL,
+		Forename VARCHAR(255) NULL,
+		Middlename VARCHAR(255) NULL,
+		Surname VARCHAR(255) NULL,
+		DoB VARCHAR(255) NULL,
+		AddressLine1 VARCHAR(255) NULL,
+		AddressLine2 VARCHAR(255) NULL,
+		AddressLine3 VARCHAR(255) NULL,
+		AddressLine4 VARCHAR(255) NULL,
+		AddressLine5 VARCHAR(255) NULL,
+		AddressLine6 VARCHAR(255) NULL,
+		PostCode VARCHAR(255) NULL,
+		Country VARCHAR(255) NULL,
+		SequenceNumber VARCHAR(255) NULL,
+		ParentSequenceNumber VARCHAR(255) NULL
+	 )
+	 ;
+     
+	LOAD DATA INFILE '/tmp/PersonsFinal.txt'
+	INTO TABLE person
+	CHARACTER SET UTF8
+	FIELDS TERMINATED BY '\t'
+	ENCLOSED BY '"'
+	LINES TERMINATED BY '\n'
+	IGNORE 1 LINES;
+	-- 	IGNORE 1 ROWS;
+     
+	SELECT * FROM person;
+	TRUNCATE TABLE person;
+
+	SELECT * FROM person WHERE -- 2550
+		(NOT HEX(Forename) REGEXP '^([0-7][0-9A-F])*$') OR 
+		  (NOT HEX(Middlename) REGEXP '^([0-7][0-9A-F])*$') OR
+		(NOT HEX(Surname) REGEXP '^([0-7][0-9A-F])*$') OR 
+		(NOT HEX(DoB) REGEXP '^([0-7][0-9A-F])*$') OR 
+		(NOT HEX(AddressLine1) REGEXP '^([0-7][0-9A-F])*$') OR 
+		(NOT HEX(AddressLine2) REGEXP '^([0-7][0-9A-F])*$') OR 
+		(NOT HEX(AddressLine3) REGEXP '^([0-7][0-9A-F])*$') OR 
+		(NOT HEX(AddressLine4) REGEXP '^([0-7][0-9A-F])*$') OR 
+		(NOT HEX(AddressLine5) REGEXP '^([0-7][0-9A-F])*$') OR 
+		(NOT HEX(AddressLine6) REGEXP '^([0-7][0-9A-F])*$') OR 
+		(NOT HEX(Country) REGEXP '^([0-7][0-9A-F])*$') OR 
+		(NOT HEX(PostCode) REGEXP '^([0-7][0-9A-F])*$')
+	;
+    
+	SELECT COUNT(*) FROM person; -- 49676
+
+# Dump
+
+mysqldump -u [username] -p [database_name] > [dumpfilename.sql]
+
+declare -r EXPORT_DB_HOST="${EXPORT_DB_HOST:-s1-dlapp07}" # Note this is the DB host to be "exported" from
+declare -r EXPORT_DB_USER="${EXPORT_DB_USER:-rdcapp}"
+declare -r EXPORT_DB_PASS="${EXPORT_DB_PASS:-321-rdc}"
+
+declare -r EXPORT_DB_NAME="${EXPORT_DB_NAME:-case_framemf}"
+declare -r DUMP_FILE="${DUMP_FILE:-${EXPORT_DB_NAME}.sql}"
+
+mysqldump --host=${EXPORT_DB_HOST} --user=${EXPORT_DB_USER} --password=${EXPORT_DB_PASS} ${EXPORT_DB_NAME} > $DUMP_FILE
+14:04:00 to 14:21:00 ==> 17 minutes
+
+# Import
+declare -r DB_NAME="${DB_NAME:-case_framemf}"
+
+declare -r DB_HOST="${DB_HOST:-dlm47}" # Note this is the DB host to be "imported" into
+declare -r DB_USER="${DB_USER:-rdcapp}"
+declare -r DB_PASS="${DB_PASS:-321-rdc}"
+declare -r DUMP_FILE="${DUMP_FILE:-${DB_NAME}.sql}"
+
+$ mysql --port=3307 --host=dlm47 -urdcapp -p321-rdc
+
+mysql -u username -ppassword databasename < filename.sql
+(From: http://www.cyberciti.biz/faq/import-mysql-dumpfile-sql-datafile-into-my-database/)
+
+mysql --port=3307  --host=${DB_HOST} --user=${DB_USER} --password=${DB_PASS} \
+      --verbose --batch --skip-column-names < $DUMP_FILE
+==> --verbose is too noisy, --database is needed
+mysql --port=3307  --host=${DB_HOST} --user=${DB_USER} --password=${DB_PASS} --database=${DB_NAME} \
+      --batch < $DUMP_FILE
+
+14:57:50 to before 16:40
+
+# Table Encryption [...](https://mariadb.com/kb/en/mariadb/table-encryption/)
