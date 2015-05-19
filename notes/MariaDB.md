@@ -468,3 +468,53 @@ dlm47 init.d # update-rc.d mariadb defaults
    /etc/rc3.d/S20mariadb -> ../init.d/mariadb
    /etc/rc4.d/S20mariadb -> ../init.d/mariadb
    /etc/rc5.d/S20mariadb -> ../init.d/mariadb
+
+# Before encryption
+USE test;
+CREATE TABLE user
+SELECT 1 user_id, 'Jerry' user_name;
+SELECT * FROM user;
+
+@E ^] ^@^X<B8>~<B2><A5><D8>^\^@^@^@^C<FF><FF><FF><FF><FF><FF><FF><FF>^@^@^@^@^@^X<BE><B9>E<BF>^@
+^@^@^@^@^@^@^@^@^@^@^D^@^B^@<9A><80>^C^@^@^@^@^@~^@^E^@^@^@^A^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^T^@^@^@^D^@^@^@^B^@<F2>^@^@^@^D^@^@^@^B^@2^A
+^@^B^@ESCinfimum^@^B^@^K^@^@supremum^E^@^@^P<FF><F2>^@^@^@^@^B^@^@^@^@^@^O^H<88>^@^@^A:^A^P<80>^@^@^AJerry^
+
+# After encryption
+150519 18:07:01 [Note] InnoDB: Completed initialization of buffer pool
+150519 18:07:01 [ERROR] InnoDB: Tablespace id 0 encrypted but encryption service not available. Can't continue opening tablespace.
+
+
+150519 18:41:57 [ERROR] InnoDB: Redo log crypto: getting mysqld crypto key from key version failed.
+150519 18:41:57 [ERROR] mysqld got signal 6 ;
+This could be because you hit a bug. It is also possible that this binary
+or one of the libraries it was linked against is corrupt, improperly built,
+or misconfigured. This error can also be caused by malfunctioning hardware.
+
+To report this bug, see http://kb.askmonty.org/en/reporting-bugs
+
+We will try our best to scrape up some info that will hopefully help
+diagnose the problem, but since we have already crashed, 
+something is definitely wrong and this may fail.
+
+Server version: 10.1.4-MariaDB-wsrep-log
+key_buffer_size=16777216
+read_buffer_size=262144
+max_used_connections=0
+max_threads=153
+thread_count=0
+It is possible that mysqld could use up to 
+key_buffer_size + (read_buffer_size + sort_buffer_size)*max_threads = 137126 K  bytes of memory
+Hope that's ok; if not, decrease some variables in the equation.
+
+Thread pointer: 0x0x0
+Attempting backtrace. You can use the following information to find out
+where mysqld died. If you see no messages after this, something went
+terribly wrong...
+stack_bottom = 0x0 thread_stack 0x48000
+mysys/stacktrace.c:247(my_print_stacktrace)[0xbcf42e]
+sql/signal_handler.cc:153(handle_fatal_signal)[0x74cde4]
+/lib/x86_64-linux-gnu/libpthread.so.0(+0x10340)[0x7f048289d340]
+/lib/x86_64-linux-gnu/libc.so.6(gsignal+0x39)[0x7f0481478bb9]
+/lib/x86_64-linux-gnu/libc.so.6(abort+0x148)[0x7f048147bfc8]
+log/log0crypt.cc:127(log_init_crypt_key(unsigned char const*, unsigned int, unsigned char*))[0x932896]
+:
