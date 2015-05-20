@@ -343,6 +343,9 @@ mysqldump --host=${EXPORT_DB_HOST} --user=${EXPORT_DB_USER} --password=${EXPORT_
 14:04:00 to 14:21:00 ==> 17 minutes
 
 # Import
+DROP DATABASE IF EXISTS case_framemf;
+CREATE DATABASE case_framemf /*!40100 DEFAULT CHARACTER SET latin1 */;
+
 declare -r DB_NAME="${DB_NAME:-case_framemf}"
 
 declare -r DB_HOST="${DB_HOST:-dlm47}" # Note this is the DB host to be "imported" into
@@ -363,4 +366,155 @@ mysql --port=3307  --host=${DB_HOST} --user=${DB_USER} --password=${DB_PASS} --d
 
 14:57:50 to before 16:40
 
+mysql --host=localhost --user=${DB_USER} --password=${DB_PASS} --database=${DB_NAME} \
+      --batch < $DUMP_FILE
+11:45 12:43
 # Table Encryption [...](https://mariadb.com/kb/en/mariadb/table-encryption/)
+
+# Performance
+MySQL 5.6.21
+
+SELECT * FROM inquiry_3920 WHERE concatname LIKE 'LUIGI%'; -- Dur: 0.001 / Fetch: 0.002
+
+SELECT aee.*, aea.*, i.* FROM inquiry_3920 i -- Dur: 0.169, Fetch: 3.164
+INNER JOIN inquiry_disposition_3920 dis ON dis.inquiry_id=i.id
+INNER JOIN alert_entity_3920 ae ON ae.inquiry_disposition_id=dis.id
+LEFT OUTER JOIN alert_entity_attribute_3920 aea ON aea.alert_entity_id=ae.id
+LEFT OUTER JOIN alert_entity_event_3920 aee ON aee.alert_entity_id=ae.id
+WHERE country!='USA'AND aea.code='PTY' ;
+
+SELECT BENCHMARK(1000000000,1+1); -- 19.505
+
+select sql_no_cache * from inquiry_3920;
+SHOW SESSION STATUS LIKE 'Select%';
+SHOW STATUS LIKE 'last_query_cost'; -- 708999.799000
+
+MariaDB 10.0.19
+
+SELECT * FROM inquiry_3920 WHERE concatname LIKE 'LUIGI%'; -- Dur: 0.001 / Fetch: 0.003
+
+SELECT aee.*, aea.*, i.* FROM inquiry_3920 i -- Dur: 0.056, Fetch: 0.281
+INNER JOIN inquiry_disposition_3920 dis ON dis.inquiry_id=i.id
+INNER JOIN alert_entity_3920 ae ON ae.inquiry_disposition_id=dis.id
+LEFT OUTER JOIN alert_entity_attribute_3920 aea ON aea.alert_entity_id=ae.id
+LEFT OUTER JOIN alert_entity_event_3920 aee ON aee.alert_entity_id=ae.id
+WHERE country!='USA'AND aea.code='PTY' ;
+
+SELECT BENCHMARK(1000000000,1+1); -- 22.921
+
+set profiling=1;
+select sql_no_cache * from inquiry_3920;
+show profile;
+FLUSH STATUS;
+select sql_no_cache * from inquiry_3920;
+SHOW SESSION STATUS LIKE 'Select%';
+SHOW STATUS LIKE 'last_query_cost'; -- 702527.999000
+
+# Encryption
+Before, data can be seen
+$ less view_query_4985.ibd
+^@<9F><DC><F6><F0>J{<F2><91><A9>v<BB>5^@^@^@^C<FF><FF><FF><FF><FF><FF><FF><FF>^@^@^@^CJ|%
+^VE<BF>^@^@^@^@^@^@^@^@^@^@^Ed^@ ^Y^?<80>~^@^@^@^@^Y[^@^B^@{^@|^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^N<E3>^@^@^Ed^@^@^@^B^@<F2>^@^@^Ed^@^@^@^B^@2^A^@^B^@^^infimum^@^E^@^K^@^@supremum^D^E^F^@^@^@^P^@-<80>^@^@^G^@^@^@^@s<AD><C0>^@^@^Af^A^P<80>^@^@^Gstringstageopen^F^E^F^@^@^@^X^@/<80>^@^@ ^@^@^@^@s<AD><C0>^@^@^Af^A^]<80>^@^@^Hstringstagepassed^F^E^F^@^@^@ ^@/<80>^@^@^K^@^@^@^@s<AD><C0>^@^@^Af^A*<80>^@^@    stringstagefailed^M^H^F^@^D^@(^@9<80>^@^@^]^@^@^@^@s<AD><C0>^@^@^Af^A7<80>^@^@ stringpendedBy@@currentUser^D^F^G^@^@^@0^@/<80>^@^@^^^@^@^@^@s<AD><C0>^@^@^Af
+^AD<80>^@^@!booleanpendedtrue^E     ^G^@^@^@8^@3<80>^@^@"^@^@^@^@s<AD><C0>^@^@^Af^AQ<80>^@^@^GbooleaninProcessfalse^E       ^G^@^@^@@^@3<80>^@^@#^@^@^@^@s<AD><C0>^@^@^Af^A^<80>^@^@^HbooleaninProcessfalse^E       ^G^@^D^@H^@3<80>^@^@$^@^@^@^@s<AD><C0>^@^@^Af^Ak<80>^@^@        bool
+
+# Key
+[Table and tablespace encryption on MariaDB 10.1.3](https://blog.mariadb.org/table-and-tablespace-encryption-on-mariadb-10-1-3/)
+mariadb@dlm47 /opt/mariadb-data $ openssl enc -aes-256-cbc -k xxx-1234 -P -md sha1
+salt=292FAB246B0B78E3
+key=5820CEE33E77D96EDA1EED0038610329A6DDA1299C031C51F8BFB3AC91638021
+iv =0A27704DBD26F136E9252EA496F593DB
+mariadb@dlm47 /opt/mariadb-data $ openssl enc -aes-256-cbc -k xxx-1234 -P -md sha1
+salt=BCF2829F9009DCBC
+key=16191C4A5CFAD9A28D8BE13384BE988B214512B42512F956C2011F04ACBB37D5
+iv =83CE09D6F47246F1B4FA56BBDEA967DE
+mariadb@dlm47 /opt/mariadb-data $ openssl enc -aes-256-cbc -k xxx-1234 -P -md sha1
+salt=140381C0964A6F9D
+key=29593D99E8958C5DCFB56C29C1D6FCA820211600C92D2503244EE4B8C57184F7
+iv =CE3A3A8927BB69A56C49BF673436A3A7
+
+# Cannot find file_key_management.so
+Encryption of tables and tablespaces was added in MariaDB 10.1.3. There were substantial changes made in MariaDB 10.1.4, and the description below applies only to MariaDB 10.1.4 and later
+
+https://downloads.mariadb.org/interstitial/mariadb-10.1.4/bintar-linux-x86_64/mariadb-10.1.4-linux-x86_64.tar.gz/from/http%3A//mirror.jmu.edu/pub/mariadb
+
+https://mariadb.com/kb/en/mariadb/installing-mariadb-binary-tarballs/
+
+Warning: World-writable config file '/opt/mariadb-data/my.cnf' is ignored
+Installing MariaDB/MySQL system tables in './data' ...
+./bin/mysqld: error while loading shared libraries: libjemalloc.so.1: cannot open shared object file: No such file or directory
+
+
+sudo apt-get install libjemalloc1
+==> OK
+
+dlm47 init.d # chkconfig --add mariadb
+chkconfig: command not found
+==> [Chkconfig alternative for Ubuntu Server](http://askubuntu.com/questions/2263/chkconfig-alternative-for-ubuntu-server)
+
+The equivalent to chkconfig is update-rc.d
+
+The equivalents you seek are
+update-rc.d <service> defaults
+update-rc.d <service> start 20 3 4 5
+update-rc.d -f <service>  remove
+
+
+dlm47 init.d # update-rc.d mariadb defaults 
+ Adding system startup for /etc/init.d/mariadb ...
+   /etc/rc0.d/K20mariadb -> ../init.d/mariadb
+   /etc/rc1.d/K20mariadb -> ../init.d/mariadb
+   /etc/rc6.d/K20mariadb -> ../init.d/mariadb
+   /etc/rc2.d/S20mariadb -> ../init.d/mariadb
+   /etc/rc3.d/S20mariadb -> ../init.d/mariadb
+   /etc/rc4.d/S20mariadb -> ../init.d/mariadb
+   /etc/rc5.d/S20mariadb -> ../init.d/mariadb
+
+# Before encryption
+USE test;
+CREATE TABLE user
+SELECT 1 user_id, 'Jerry' user_name;
+SELECT * FROM user;
+
+@E ^] ^@^X<B8>~<B2><A5><D8>^\^@^@^@^C<FF><FF><FF><FF><FF><FF><FF><FF>^@^@^@^@^@^X<BE><B9>E<BF>^@
+^@^@^@^@^@^@^@^@^@^@^D^@^B^@<9A><80>^C^@^@^@^@^@~^@^E^@^@^@^A^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^T^@^@^@^D^@^@^@^B^@<F2>^@^@^@^D^@^@^@^B^@2^A
+^@^B^@ESCinfimum^@^B^@^K^@^@supremum^E^@^@^P<FF><F2>^@^@^@^@^B^@^@^@^@^@^O^H<88>^@^@^A:^A^P<80>^@^@^AJerry^
+
+# After encryption
+150519 18:07:01 [Note] InnoDB: Completed initialization of buffer pool
+150519 18:07:01 [ERROR] InnoDB: Tablespace id 0 encrypted but encryption service not available. Can't continue opening tablespace.
+
+
+150519 18:41:57 [ERROR] InnoDB: Redo log crypto: getting mysqld crypto key from key version failed.
+150519 18:41:57 [ERROR] mysqld got signal 6 ;
+This could be because you hit a bug. It is also possible that this binary
+or one of the libraries it was linked against is corrupt, improperly built,
+or misconfigured. This error can also be caused by malfunctioning hardware.
+
+To report this bug, see http://kb.askmonty.org/en/reporting-bugs
+
+We will try our best to scrape up some info that will hopefully help
+diagnose the problem, but since we have already crashed, 
+something is definitely wrong and this may fail.
+
+Server version: 10.1.4-MariaDB-wsrep-log
+key_buffer_size=16777216
+read_buffer_size=262144
+max_used_connections=0
+max_threads=153
+thread_count=0
+It is possible that mysqld could use up to 
+key_buffer_size + (read_buffer_size + sort_buffer_size)*max_threads = 137126 K  bytes of memory
+Hope that's ok; if not, decrease some variables in the equation.
+
+Thread pointer: 0x0x0
+Attempting backtrace. You can use the following information to find out
+where mysqld died. If you see no messages after this, something went
+terribly wrong...
+stack_bottom = 0x0 thread_stack 0x48000
+mysys/stacktrace.c:247(my_print_stacktrace)[0xbcf42e]
+sql/signal_handler.cc:153(handle_fatal_signal)[0x74cde4]
+/lib/x86_64-linux-gnu/libpthread.so.0(+0x10340)[0x7f048289d340]
+/lib/x86_64-linux-gnu/libc.so.6(gsignal+0x39)[0x7f0481478bb9]
+/lib/x86_64-linux-gnu/libc.so.6(abort+0x148)[0x7f048147bfc8]
+log/log0crypt.cc:127(log_init_crypt_key(unsigned char const*, unsigned int, unsigned char*))[0x932896]
+:
