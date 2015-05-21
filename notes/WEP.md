@@ -1,3 +1,11 @@
+# The official Broadcom STA/wl driver DOES NOT support monitor mode [...](http://askubuntu.com/questions/155528/why-cant-i-set-monitor-mode-with-the-wl-sta-driver-on-a-broadcom-wireless-card)
+
+You are using the Broadcom STA (wl) official driver; this does not support monitor or promiscuous modes (regardless of whatever airmon-ng tells you.)
+For this you need the b43 driver, which can be installed with sudo apt-get install b43-fwcutter firmware-b43-installer
+You can unload one and load the other with sudo rmmod wl; sudo modprobe b43 (and vice versa).
+Note that b43 and wl have their own advantages and disadvantages, so you may want to google before choosing one or the other.
+
+
 # How to fix ‘ioctl(SIOCSIWMODE) failed: Device or resource busy ‘ problem. [...](https://taufanlubis.wordpress.com/2010/05/14/how-to-fix-ioctlsiocsiwmode-failed-device-or-resource-busy-problem/)
 iwconfig wlan0
 
