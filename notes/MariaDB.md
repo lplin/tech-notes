@@ -480,12 +480,33 @@ SELECT * FROM user;
 ^@^B^@ESCinfimum^@^B^@^K^@^@supremum^E^@^@^P<FF><F2>^@^@^@^@^B^@^@^@^@^@^O^H<88>^@^@^A:^A^P<80>^@^@^AJerry^
 
 # After encryption
-150519 18:07:01 [Note] InnoDB: Completed initialization of buffer pool
-150519 18:07:01 [ERROR] InnoDB: Tablespace id 0 encrypted but encryption service not available. Can't continue opening tablespace.
+^@<F8><ED>.c^@^X<B9>40ύu^@^@^@^A^@^@^@^@^@^@^@^@^@^@^@^@^@^X<AC><A3>^@^E^@^@^@^A<8B><9D>%<A7>^@^@^@^D<ED><E1>Ah1<B6>ESC1pHƘ^F<A8><AF><D8>s<EF><F5>#<83>k<FB>av<BB>~<B0><99><A6><80>Β0~<95>^D<C0><95>Yf<F8>{.<A8>̱<9A><AC>Ȼ^]<AD>^K<AE>Y_<B6><EF>m<9C><F8>n<U+07BC>^\d<E9><D3>$jiv<B8><9B><91>J<A0><9B><8F>1Un<EF>f<BE><F0><D4>=^\{{H
+<U+07B3>vG^Y<E9>^K<A5><9F>^C<F5><BF><EE>v<95>^Z0N$5<DD>Tq<8F>;^Y<97><9B>J^^z+ܶ<97><ED><9A>d^\<9F><9D><E5><C9><C7><ED>Sg<B1>n<A2>G;R0<8C><92>
+<E7><AB>^N$a]^R'p<AF><AC>^Xٕ^Gd/u<FD>^M_o<CB>^N;p^_^A^E<E8>^A<81><C4><F6>^T^S0^A<D7>@8<CA>ϒ<F6>^S^K<D2>{<8A><99><A1>lESC<88><E7>n
+<B1>^S<EB><F6>^^<U+077C><B9><E1>'><A2>?<99>A<D6>5<U+0777>Օ<9B>x<95> B<93><D2>~<D9>R\<B9>IJ}<A8>X<BC>-T<E7><BA>)<A6><81>Uo<D2>^Ad$k<B7>/<C4>RQ<E0><CA>O-È<85>^V<AD>+<9F><C4>&o<EA>$K<D4>^M6<FF>  O<BC><A3>ڎ5@~<83>ɾ<93><F0><E9><F4><U+077D><E9>" <94>^]<D8>ȣ<EB>V&<AC>0<99><C9>l<AD><AC>]j^Z]Y<<92>}<AE>8^Be<EB>(g<AF><A6>p
+1^Y<A4>P^V<F8><EF><F9><B4>W*<E0>bX<CA><EE>?<BE><U+0380><AA><C9>:<BB>Ϋ^Zж<B9>p<U+DE14D>^S<D0>D<BA>
+^O<D7>  <BC>^C<CD><EB>Nm<C5>9<FD>]<99>^L<FB>
 
+# With innodb-encrypt-log option
+150521 16:47:09 mysqld_safe Starting mysqld daemon with databases from /opt/mariadb-data
+150521 16:47:09 mysqld_safe WSREP: Running position recovery with --log_error='/opt/mariadb-data/wsrep_recovery.UNnfct' --pid-file='/opt/mariadb-data/dlm47-recover.pid'
+150521 16:47:10 mysqld_safe WSREP: Failed to recover position: '150521 16:47:09 [Note] InnoDB: Using mutexes to ref count buffer pool pages
+150521 16:47:09 [Note] InnoDB: The InnoDB memory heap is disabled
+150521 16:47:09 [Note] InnoDB: Mutexes and rw_locks use GCC atomic builtins
+...
 
-150519 18:41:57 [ERROR] InnoDB: Redo log crypto: getting mysqld crypto key from key version failed.
-150519 18:41:57 [ERROR] mysqld got signal 6 ;
+150521 16:47:09 [Note] InnoDB: Redo log crypto: unencrypted key ver.
+150521 16:47:09 [ERROR] InnoDB: Tablespace id 4 encrypted but encryption service not available. Can't continue opening tablespace.
+
+2015-05-21 16:47:09 7fb592ede7c0  InnoDB: Assertion failure in thread 140417830873024 in file ha_innodb.cc line 21064
+InnoDB: We intentionally generate a memory trap.
+InnoDB: Submit a detailed bug report to http://bugs.mysql.com.
+InnoDB: If you get repeated assertion failures or crashes, even
+InnoDB: immediately after the mysqld startup, there may be
+InnoDB: corruption in the InnoDB tablespace. Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/forcing-innodb-recovery.html
+InnoDB: about forcing recovery.
+150521 16:47:09 [ERROR] mysqld got signal 6 ;
 This could be because you hit a bug. It is also possible that this binary
 or one of the libraries it was linked against is corrupt, improperly built,
 or misconfigured. This error can also be caused by malfunctioning hardware.
@@ -513,8 +534,54 @@ terribly wrong...
 stack_bottom = 0x0 thread_stack 0x48000
 mysys/stacktrace.c:247(my_print_stacktrace)[0xbcf42e]
 sql/signal_handler.cc:153(handle_fatal_signal)[0x74cde4]
-/lib/x86_64-linux-gnu/libpthread.so.0(+0x10340)[0x7f048289d340]
-/lib/x86_64-linux-gnu/libc.so.6(gsignal+0x39)[0x7f0481478bb9]
-/lib/x86_64-linux-gnu/libc.so.6(abort+0x148)[0x7f048147bfc8]
-log/log0crypt.cc:127(log_init_crypt_key(unsigned char const*, unsigned int, unsigned char*))[0x932896]
-:
+/lib/x86_64-linux-gnu/libpthread.so.0(+0x10340)[0x7fb592ad9340]
+/lib/x86_64-linux-gnu/libc.so.6(gsignal+0x39)[0x7fb5916b4bb9]
+/lib/x86_64-linux-gnu/libc.so.6(abort+0x148)[0x7fb5916b7fc8]
+handler/ha_innodb.cc:21064(ib_logf(ib_log_level_t, char const*, ...))[0x8d7328]
+fil/fil0fil.cc:2042(fil_read_first_page(int, unsigned long, unsigned long*, unsigned long*, unsigned long*, unsigned long*, unsigned long, fil_space_crypt_struct**))[0xa536bc]
+fil/fil0fil.cc:3741(fil_open_single_table_tablespace(bool, bool, unsigned long, unsigned long, char const*, char const*))[0xa61f3f]
+dict/dict0load.cc:1173(dict_check_tablespaces_and_store_max_id(dict_check_t))[0xa40ff7]
+srv/srv0start.cc:2597(innobase_start_or_create_for_mysql())[0x9ae7e5]
+handler/ha_innodb.cc:4085(innobase_init)[0x8df801]
+sql/handler.cc:512(ha_initialize_handlerton(st_plugin_int*))[0x75103e]
+sql/sql_plugin.cc:1403(plugin_initialize)[0x5b6190]
+sql/sql_plugin.cc:1675(plugin_init(int*, char**, int))[0x5b71b1]
+sql/mysqld.cc:5039(init_server_components)[0x5157c2]
+sql/mysqld.cc:5631(mysqld_main(int, char**))[0x516f30]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf5)[0x7fb59169fec5]
+/opt/mariadb/bin/mysqld[0x50c9d9]
+The manual page at http://dev.mysql.com/doc/mysql/en/crashing.html contains
+information that should help you find out what is causing the crash.'
+
+==> Sounds resulted from innodb-encrypt-log option. Bug? [MDEV-8021](https://mariadb.atlassian.net/browse/MDEV-8021) or [MDEV-8011](https://mariadb.atlassian.net/browse/MDEV-8011)
+
+Source: [innodb_first_page.test](https://github.com/MariaDB/server/blob/16b6ec2e377f8f3dcac76e8c172ed9daa797d311/mysql-test/suite/encryption/t/innodb_first_page.test)
+[History](https://github.com/MariaDB/server/commits/20c23048c1d2f28942f2f99e4150a58b6545c0cd/storage/innobase/handler/ha_innodb.cc)
+Search by filename: [filename:.ha_innodb.cc](https://github.com/MariaDB/server/search?utf8=%E2%9C%93&q=filename%3A.ha_innodb.cc+&type=Code)
+[MDEV-8015 InnoDB: Failing assertion: new_state->key_version != ENCRYP…](https://github.com/MariaDB/server/commit/a583976e78298141e074c2a6b3d6c7c842642781)
+
+== [fil0fil.cc](https://github.com/MariaDB/server/blob/536112dd30bbe68e1b0624ed68fbf96e333d9f80/storage/innobase/fil/fil0fil.cc)
+	if ((cdata && cdata->encryption == FIL_SPACE_ENCRYPTION_ON) ||
+		(srv_encrypt_tables &&
+			cdata && cdata->encryption == FIL_SPACE_ENCRYPTION_DEFAULT)) {
+
+		if (!encryption_key_id_exists(cdata->key_id)) {
+			ib_logf(IB_LOG_LEVEL_FATAL,
+				"Tablespace id %ld encrypted but encryption service"
+				" not available. Can't continue opening tablespace.\n",
+				space);
+			ut_error;
+		}
+	}
+
+
+SHOW VARIABLES LIKE 'innodb_enc%';
+# Variable_name, Value
+innodb_encrypt_log, OFF
+innodb_encrypt_tables, OFF
+innodb_encryption_rotate_key_age, 1
+innodb_encryption_rotation_iops, 100
+innodb_encryption_threads, 0
+
+
+# Another work through [...](https://mattwservices.co.uk/threads/table-and-tablespace-encryption-on-mariadb-10-1-3.1804/)
