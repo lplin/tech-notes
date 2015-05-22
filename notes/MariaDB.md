@@ -585,3 +585,106 @@ innodb_encryption_threads, 0
 
 
 # Another work through [...](https://mattwservices.co.uk/threads/table-and-tablespace-encryption-on-mariadb-10-1-3.1804/)
+
+# Install is required otherwise 
+==> [ERROR] Could not open mysql.plugin table. Some plugins may be not loaded
+
+scripts/mysql_install_db --defaults-file=/opt/mariadb-data/my.cnf
+
+mariadb@dlm47 ~ $ bin/mysql_secure_installation --defaults-file=/opt/mariadb-data/my.cnf --basedir='/opt/mariadb' --datadir='/opt/mariadb-data' 
+
+Alternatively you can run:
+'/opt/mariadb/bin/mysql_secure_installation'
+==> bin/mysql_secure_installation --defaults-file=/opt/mariadb-data/my.cnf --basedir='/opt/mariadb' --datadir='/opt/mariadb-data' 
+==> bin/mysql_secure_installation --port=3307 -h dlm47
+
+
+which will also give you the option of removing the test
+databases and anonymous user created by default.  This is
+strongly recommended for production servers.
+
+See the MariaDB Knowledgebase at http://mariadb.com/kb or the
+MySQL manual for more instructions.
+
+You can start the MariaDB daemon with:
+cd '/opt/mariadb' ; /opt/mariadb/bin/mysqld_safe --datadir='/opt/mariadb-data'
+==> /opt/mariadb/bin/mysqld_safe --basedir='/opt/mariadb' --datadir='/opt/mariadb-data' --defaults-file='/opt/mariadb-data/my.cnf'
+
+You can test the MariaDB daemon with mysql-test-run.pl
+cd '/opt/mariadb/mysql-test' ; perl mysql-test-run.pl
+
+# DB Ops
+	SELECT * from mysql.user;
+	SET PASSWORD FOR 'root'@'localhost' = PASSWORD('321-rdc');
+
+	SHOW VARIABLES LIKE 'skip_networking'; -- OFF
+	SHOW VARIABLES LIKE 'secure-auth'; -- Empty
+	SET secure-auth='OFF';
+	SET skip_networking='OFF';
+
+	DROP USER 'rdcapp'@'dlm47';
+
+	DROP USER ''@'dlm47';
+
+	SELECT * from mysql.user WHERE host='localhost' AND user='';
+
+	DELETE from mysql.user WHERE host='localhost' AND user='';
+
+	SELECT * FROM information_schema.USER_PRIVILEGES;
+	SELECT * from mysql.user;
+
+	CREATE USER 'rdcapp'@'%' IDENTIFIED BY '321-rdc';
+	GRANT ALL PRIVILEGES ON *.* TO 'rdcapp'@'%' WITH GRANT OPTION;
+
+	GRANT ALL PRIVILEGES ON *.* TO 'rdcapp'@'dlm47' WITH GRANT OPTION;
+
+	SELECT * from information_schema.user_privileges where grantee like "'rdcapp'%";
+	FLUSH PRIVILEGES;
+
+	USE test;
+	CREATE TABLE user
+	SELECT 1 user_id, 'Jerry' user_name;
+
+	SELECT * FROM user;
+
+	CREATE TABLE user1
+	SELECT 1 user_id, 'Jim' user_name;
+	SELECT * FROM user1;
+
+	CREATE TABLE t1 (user_id int, user_name varchar(255)) ENCRYPTED=YES ENCRYPTION_KEY_ID=1;
+	INSERT INTO t1
+	SELECT 1 user_id, 'Jerry' user_name;
+
+
+	SELECT * FROM t1;
+
+
+	SHOW VARIABLES LIKE 'innodb_enc%';
+
+	CREATE DATABASE db1;
+	USE db1;
+	CREATE TABLE user
+	SELECT 1 user_id, 'Jerry' user_name;
+	SELECT * FROM user;
+
+
+# Import after encrypted:
+DROP DATABASE IF EXISTS case_framemf;
+CREATE DATABASE case_framemf /*!40100 DEFAULT CHARACTER SET latin1 */;
+
+declare -r DB_NAME="${DB_NAME:-case_framemf}"
+
+declare -r DB_HOST="${DB_HOST:-dlm47}" # Note this is the DB host to be "imported" into
+declare -r DB_USER="${DB_USER:-rdcapp}"
+declare -r DB_PASS="${DB_PASS:-321-rdc}"
+declare -r DUMP_FILE="${DUMP_FILE:-${DB_NAME}.sql}"
+
+mysql --port=3307  --host=${DB_HOST} --user=${DB_USER} --password=${DB_PASS} --database=${DB_NAME} \
+      --batch < $DUMP_FILE
+
+MySQL 5.6 duration 1 hour:
+# ls -lart /var/lib/mysql/case_management
+-rw-rw---- 1 mysql mysql         65 May 19 11:42 db.opt
+-rw-rw---- 1 mysql mysql       8920 May 19 11:46 alert_entity_3320.frm
+...
+-rw-rw---- 1 mysql mysql 1774190592 May 19 12:40 audit_3920.ibd
