@@ -1,3 +1,10 @@
+# Enable the mounting of ext2/3 file systems on a Windows machine [...](http://www.techrepublic.com/blog/tr-dojo/enable-the-mounting-of-ext2-3-file-systems-on-a-windows-machine/)
+
+Install [Ext2Fsd](http://www.ext2fsd.com/)
+If you right-click that same drive and select the Ext2 Management option, you can configure this drive on a more granular level. The available options are:
+
+Mount volume in read only mode: mount the drive read only
+
 # column to comma separated:
 $ awk -F'\t' '{print $4}' | tr '\n' '\t' | sed 's/\t/, /g'
 

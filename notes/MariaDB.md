@@ -669,22 +669,83 @@ cd '/opt/mariadb/mysql-test' ; perl mysql-test-run.pl
 
 
 # Import after encrypted:
-DROP DATABASE IF EXISTS case_framemf;
-CREATE DATABASE case_framemf /*!40100 DEFAULT CHARACTER SET latin1 */;
+	DROP DATABASE IF EXISTS case_framemf;
+	CREATE DATABASE case_framemf /*!40100 DEFAULT CHARACTER SET latin1 */;
 
-declare -r DB_NAME="${DB_NAME:-case_framemf}"
+	declare -r DB_NAME="${DB_NAME:-case_framemf}"
 
-declare -r DB_HOST="${DB_HOST:-dlm47}" # Note this is the DB host to be "imported" into
-declare -r DB_USER="${DB_USER:-rdcapp}"
-declare -r DB_PASS="${DB_PASS:-321-rdc}"
-declare -r DUMP_FILE="${DUMP_FILE:-${DB_NAME}.sql}"
+	declare -r DB_HOST="${DB_HOST:-dlm47}" # Note this is the DB host to be "imported" into
+	declare -r DB_USER="${DB_USER:-rdcapp}"
+	declare -r DB_PASS="${DB_PASS:-321-rdc}"
+	declare -r DUMP_FILE="${DUMP_FILE:-${DB_NAME}.sql}"
 
-mysql --port=3307  --host=${DB_HOST} --user=${DB_USER} --password=${DB_PASS} --database=${DB_NAME} \
-      --batch < $DUMP_FILE
-
+	mysql --port=3307  --host=${DB_HOST} --user=${DB_USER} --password=${DB_PASS} --database=${DB_NAME} \
+	      --batch < $DUMP_FILE
 MySQL 5.6 duration 1 hour:
-# ls -lart /var/lib/mysql/case_management
--rw-rw---- 1 mysql mysql         65 May 19 11:42 db.opt
--rw-rw---- 1 mysql mysql       8920 May 19 11:46 alert_entity_3320.frm
-...
--rw-rw---- 1 mysql mysql 1774190592 May 19 12:40 audit_3920.ibd
+
+	$ ls -lart /var/lib/mysql/case_management
+	-rw-rw---- 1 mysql mysql         65 May 19 11:42 db.opt
+	-rw-rw---- 1 mysql mysql       8920 May 19 11:46 alert_entity_3320.frm
+	...
+	-rw-rw---- 1 mysql mysql 1774190592 May 19 12:40 audit_3920.ibd
+
+MariaDB almost 2 hours after encrypted
+
+		$ /opt/mariadb-data/case_framemf $ ls -lart
+		-rw-rw---- 1 mariadb mariadb         65 May 22 17:35 db.opt
+		-rw-rw---- 1 mariadb mariadb       2451 May 22 17:36 alert_entity_3320.frm
+		...
+		-rw-rw---- 1 mariadb mariadb   79691776 May 22 19:24 audit_4495.ibd
+
+DB ops
+
+	SELECT * FROM mysql.user;
+	SELECT * FROM information_schema.USER_PRIVILEGES;
+
+	USE test;
+	CREATE TABLE user
+	SELECT 1 user_id, 'Jerry' user_name;
+	SELECT * FROM user;
+
+	DROP TABLE test;
+	DROP DATABASE case_framemf;
+
+	CREATE DATABASE case_framemf /*!40100 DEFAULT CHARACTER SET latin1 */;
+
+lplin@dlm47 ~ $ sudo -u mysql -s	
+mysql@dlm47 /home/mysql/case_framemf $ hexdump -C view_query_base.ibd 
+mariadb@dlm47 /opt/mariadb-data/case_framemf $ hexdump -C view_query_base.ibd > /tmp/view_query_base.ibd.mariadb.hexdump
+
+
+lplin@dlm47 ~/data/mariadb $ meld view_query_base.ibd.mysql56.hexdump view_query_base.ibd.mariadb.hexdump 
+
+# Working my.cnf
+	# The MariaDB server
+	[mysqld]
+	# skip-grant-tables
+	# skip-secure-auth
+	# Tablespace encryption configuration
+	plugin-load-add=example_key_management.so
+	example_key_management
+	#example_key_management_encryption_algorithm=aes_cbc
+	# encrypt Aria tables
+	#aria
+	#aria-encrypt-tables
+	innodb-encrypt-tables
+	# encrypt tmp tables
+	encrypt-tmp-disk-tables
+	# encrypt InnoDB log files
+	innodb-encrypt-log
+	# key rotation
+	innodb-encryption-threads=4
+	innodb-encryption-rotate-key-age=1800
+
+	datadir         = /opt/mariadb-data
+	basedir         = /opt/mariadb
+	user            = mariadb
+	pid-file	= /opt/mariadb-data/mariadb.pid
+	port		= 3307
+	socket		= /opt/mariadb-data/mariadb.sock
+
+# Performance after encrypted
+SELECT BENCHMARK(1000000000,1+1); -- 32.132 sec first time, around 23 the 2nd and 3rd time vs MySQL 5.6.21: 19.505, No Enc: 22.921
