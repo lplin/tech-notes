@@ -330,45 +330,45 @@ SHOW VARIABLES LIKE 'secure_auth'; -- OFF
 
 # Dump
 
-mysqldump -u [username] -p [database_name] > [dumpfilename.sql]
+	mysqldump -u [username] -p [database_name] > [dumpfilename.sql]
 
-declare -r EXPORT_DB_HOST="${EXPORT_DB_HOST:-s1-dlapp07}" # Note this is the DB host to be "exported" from
-declare -r EXPORT_DB_USER="${EXPORT_DB_USER:-rdcapp}"
-declare -r EXPORT_DB_PASS="${EXPORT_DB_PASS:-321-rdc}"
+	declare -r EXPORT_DB_HOST="${EXPORT_DB_HOST:-s1-dlapp07}" # Note this is the DB host to be "exported" from
+	declare -r EXPORT_DB_USER="${EXPORT_DB_USER:-rdcapp}"
+	declare -r EXPORT_DB_PASS="${EXPORT_DB_PASS:-321-rdc}"
 
-declare -r EXPORT_DB_NAME="${EXPORT_DB_NAME:-case_framemf}"
-declare -r DUMP_FILE="${DUMP_FILE:-${EXPORT_DB_NAME}.sql}"
+	declare -r EXPORT_DB_NAME="${EXPORT_DB_NAME:-case_framemf}"
+	declare -r DUMP_FILE="${DUMP_FILE:-${EXPORT_DB_NAME}.sql}"
 
-mysqldump --host=${EXPORT_DB_HOST} --user=${EXPORT_DB_USER} --password=${EXPORT_DB_PASS} ${EXPORT_DB_NAME} > $DUMP_FILE
-14:04:00 to 14:21:00 ==> 17 minutes
+	mysqldump --host=${EXPORT_DB_HOST} --user=${EXPORT_DB_USER} --password=${EXPORT_DB_PASS} ${EXPORT_DB_NAME} > $DUMP_FILE
+	14:04:00 to 14:21:00 ==> 17 minutes
 
 # Import
-DROP DATABASE IF EXISTS case_framemf;
-CREATE DATABASE case_framemf /*!40100 DEFAULT CHARACTER SET latin1 */;
+	DROP DATABASE IF EXISTS case_framemf;
+	CREATE DATABASE case_framemf /*!40100 DEFAULT CHARACTER SET latin1 */;
 
-declare -r DB_NAME="${DB_NAME:-case_framemf}"
+	declare -r DB_NAME="${DB_NAME:-case_framemf}"
 
-declare -r DB_HOST="${DB_HOST:-dlm47}" # Note this is the DB host to be "imported" into
-declare -r DB_USER="${DB_USER:-rdcapp}"
-declare -r DB_PASS="${DB_PASS:-321-rdc}"
-declare -r DUMP_FILE="${DUMP_FILE:-${DB_NAME}.sql}"
+	declare -r DB_HOST="${DB_HOST:-dlm47}" # Note this is the DB host to be "imported" into
+	declare -r DB_USER="${DB_USER:-rdcapp}"
+	declare -r DB_PASS="${DB_PASS:-321-rdc}"
+	declare -r DUMP_FILE="${DUMP_FILE:-${DB_NAME}.sql}"
 
-$ mysql --port=3307 --host=dlm47 -urdcapp -p321-rdc
+	$ mysql --port=3307 --host=dlm47 -urdcapp -p321-rdc
 
-mysql -u username -ppassword databasename < filename.sql
-(From: http://www.cyberciti.biz/faq/import-mysql-dumpfile-sql-datafile-into-my-database/)
+	mysql -u username -ppassword databasename < filename.sql
+	(From: http://www.cyberciti.biz/faq/import-mysql-dumpfile-sql-datafile-into-my-database/)
 
-mysql --port=3307  --host=${DB_HOST} --user=${DB_USER} --password=${DB_PASS} \
-      --verbose --batch --skip-column-names < $DUMP_FILE
-==> --verbose is too noisy, --database is needed
-mysql --port=3307  --host=${DB_HOST} --user=${DB_USER} --password=${DB_PASS} --database=${DB_NAME} \
-      --batch < $DUMP_FILE
+	mysql --port=3307  --host=${DB_HOST} --user=${DB_USER} --password=${DB_PASS} \
+	      --verbose --batch --skip-column-names < $DUMP_FILE
+	==> --verbose is too noisy, --database is needed
+	mysql --port=3307  --host=${DB_HOST} --user=${DB_USER} --password=${DB_PASS} --database=${DB_NAME} \
+	      --batch < $DUMP_FILE
 
-14:57:50 to before 16:40
+	14:57:50 to before 16:40
 
-mysql --host=localhost --user=${DB_USER} --password=${DB_PASS} --database=${DB_NAME} \
-      --batch < $DUMP_FILE
-11:45 12:43
+	mysql --host=localhost --user=${DB_USER} --password=${DB_PASS} --database=${DB_NAME} \
+	      --batch < $DUMP_FILE
+	11:45 12:43
 # Table Encryption [...](https://mariadb.com/kb/en/mariadb/table-encryption/)
 
 # Performance
