@@ -712,9 +712,9 @@ DB ops
 
 	CREATE DATABASE case_framemf /*!40100 DEFAULT CHARACTER SET latin1 */;
 
-lplin@dlm47 ~ $ sudo -u mysql -s	
-mysql@dlm47 /home/mysql/case_framemf $ hexdump -C view_query_base.ibd 
-mariadb@dlm47 /opt/mariadb-data/case_framemf $ hexdump -C view_query_base.ibd > /tmp/view_query_base.ibd.mariadb.hexdump
+	lplin@dlm47 ~ $ sudo -u mysql -s	
+	mysql@dlm47 /home/mysql/case_framemf $ hexdump -C view_query_base.ibd 
+	mariadb@dlm47 /opt/mariadb-data/case_framemf $ hexdump -C view_query_base.ibd > /tmp/view_query_base.ibd.mariadb.hexdump
 
 
 lplin@dlm47 ~/data/mariadb $ meld view_query_base.ibd.mysql56.hexdump view_query_base.ibd.mariadb.hexdump 
