@@ -1,3 +1,111 @@
+# Merge [...](http://svnbook.red-bean.com/en/1.7/svn.branchmerge.basicmerging.html)
+
+lplin@dlm47 ~/projects/cmf/branches/switch-users-without-their-password $ svn merge ^/cmf/trunk
+--- Merging r53731 through r53917 into '.':
+U    cmf-webapp/pom.xml
+U    cmf-model/src/main/java/com/rdc/cmfmodel/model/Inquiry.java
+U    cmf-model/src/main/resources/ibatis/CmfModel_Batch.xml
+U    cmf-model/src/main/resources/ibatis/CmfModel_Core.xml
+U    cmf-model/src/main/resources/SqlQueries/CreateNewQueue.sql
+U    cmf-model/pom.xml
+U    cmf-middletier/src/main/java/com/rdc/cmf/middletier/model/EtlInquiry.java
+U    cmf-middletier/src/main/java/com/rdc/cmf/middletier/util/InquiryValidationEventHandler.java
+U    cmf-middletier/src/main/resources/inquiry.xsd
+U    cmf-middletier/pom.xml
+U    cmf-etl/src/main/java/com/rdc/cmf/etl/model/CmfRecord.java
+U    cmf-etl/src/main/java/com/rdc/cmf/etl/filetransformer/impl/XMLFileTransformer.java
+U    cmf-etl/src/main/java/com/rdc/cmf/etl/filetransformer/impl/CharacterSeparatedValueFileTransformer.java
+U    cmf-etl/src/main/java/com/rdc/cmf/etl/filetransformer/impl/RibPsvFileTransformer.java
+U    cmf-etl/src/main/java/com/rdc/cmf/etl/listener/ClientInputFileDirectoryListener.java
+U    cmf-etl/src/main/resources/cmf-etl-context.xml
+U    cmf-etl/pom.xml
+U    src/db/migration/2015-06-release/CMF-708-Lloyds-PEP-disposition_reason
+U    src/db/migration/2015-06-release/00-run-all
+U    src/db/migration/2015-06-release/CMF-799-BW10000TP-Bank-of-West-initial-database-setup
+A    src/db/migration/2015-07-release
+A    src/db/migration/2015-07-release/CMF-561-make-WU-inquiry-fields-nullable
+A    src/db/migration/2015-07-release/libcmf-db-migration.bash
+A    src/db/migration/2015-07-release/00-run-all
+A    src/db/migration/2015-07-release/CMF-798-provide-on_hold_report_date_settings-if-missing
+A    src/db/migration/2015-09-release
+A    src/db/migration/2015-09-release/libcmf-db-migration.bash
+A    src/db/migration/2015-09-release/00-run-all
+A    src/db/migration/2015-09-release/CMF-561-drop-WU-inquiry-fields
+U    src/db/migration/00-run-all.TEMPLATE
+U    src/changes/changes.xml
+U    pom.xml
+U    cmf-cmib1_0_x-api/pom.xml
+U    cmf-common/pom.xml
+--- Recording mergeinfo for merge of r53460 through r53917 into '.':
+ U   .
+--- Recording mergeinfo for merge of r53460 through r53917 into 'src/db':
+ U   src/db
+--- Recording mergeinfo for merge of r53460 through r53917 into 'src/db/migration':
+ U   src/db/migration
+
+
+lplin@dlm47 ~/projects/cmf/trunk $ svn merge --reintegrate ^/cmf/branches/switch-users-without-their-password
+--- Merging differences between repository URLs into '.':
+U    cmf-webapp/src/main/java/com/rdc/cmf/web/security/CmfSecurityManager.java
+U    cmf-webapp/src/main/java/com/rdc/cmf/web/security/CmfSecurityManagerImpl.java
+U    cmf-webapp/src/main/java/com/rdc/cmf/web/security/CmfSecurityInterceptor.java
+U    cmf-webapp/src/main/java/com/rdc/cmf/web/action/operation/SaveCaseAction.java
+U    cmf-webapp/src/main/java/com/rdc/cmf/web/action/BaseActionSupport.java
+A    cmf-webapp/src/main/java/com/rdc/cmf/web/action/security/GetUsersByGroupCombo.java
+A    cmf-webapp/src/main/java/com/rdc/cmf/web/action/security/SwitchFirmAction.java
+A    cmf-webapp/src/main/java/com/rdc/cmf/web/action/security/SwitchUserAction.java
+U    cmf-webapp/src/main/java/com/rdc/cmf/web/action/view/CoreCaseNavAction.java
+U    cmf-webapp/src/main/resources/rdc.properties
+A    cmf-webapp/src/main/webapp/cmf_resources/scripts/switch_user.js
+U    cmf-webapp/src/main/webapp/WEB-INF/pages/view/core_view.jsp
+U    cmf-webapp/src/main/webapp/WEB-INF/decorators/main.jsp
+U    cmf-model/src/main/java/com/rdc/cmfmodel/model/type/AdminEnum.java
+U    cmf-model/src/main/java/com/rdc/cmfmodel/model/User.java
+U    cmf-model/src/main/java/com/rdc/cmfmodel/model/Audit.java
+A    cmf-model/src/main/java/com/rdc/cmfmodel/model/AuditBuilder.java
+U    cmf-model/src/main/java/com/rdc/cmfmodel/model/UserGroup.java
+U    cmf-model/src/main/java/com/rdc/cmfmodel/service/JasperBeanFactory.java
+U    cmf-model/src/main/java/com/rdc/cmfmodel/dao/CmfUserModelDao.java
+U    cmf-model/src/main/java/com/rdc/cmfmodel/dao/CmfUserModelDaoImpl.java
+U    cmf-model/src/main/java/com/rdc/cmfmodel/dao/CmfModelDaoImpl.java
+U    cmf-model/src/main/java/com/rdc/cmfmodel/dao/CmfModelBatchDaoImpl.java
+U    cmf-model/src/main/java/com/rdc/cmfmodel/dao/CmfReconciliationDaoImpl.java
+U    cmf-model/src/main/resources/ibatis/CmfModel_User.xml
+U    cmf-model/src/main/resources/ibatis/CmfModel_Core.xml
+U    cmf-middletier/src/main/java/com/rdc/cmf/middletier/operation/impl/PendInquiry.java
+U    cmf-middletier/src/main/java/com/rdc/cmf/middletier/operation/impl/InquiryLifecycleCommand.java
+U    cmf-middletier/src/main/java/com/rdc/cmf/middletier/operation/impl/AdHocCommentInquiry.java
+U    cmf-middletier/src/main/java/com/rdc/cmf/middletier/operation/impl/ReopenCase.java
+U    cmf-middletier/src/main/java/com/rdc/cmf/middletier/operation/impl/UnpendCase.java
+U    cmf-middletier/src/main/java/com/rdc/cmf/middletier/operation/impl/UnInProcessInquiry.java
+U    cmf-middletier/src/main/java/com/rdc/cmf/middletier/operation/impl/CaseLifecycleCommand.java
+U    cmf-middletier/src/main/java/com/rdc/cmf/middletier/operation/impl/AdHocCommentCase.java
+U    cmf-middletier/src/main/java/com/rdc/cmf/middletier/operation/impl/ReopenInquiry.java
+U    cmf-middletier/src/main/java/com/rdc/cmf/middletier/operation/impl/DropPmAlertInquiry.java
+U    cmf-middletier/src/main/java/com/rdc/cmf/middletier/operation/impl/UnPendInquiry.java
+U    cmf-middletier/src/main/java/com/rdc/cmf/middletier/operation/impl/EscalateCase.java
+U    cmf-middletier/src/main/java/com/rdc/cmf/middletier/operation/impl/PendCase.java
+U    cmf-middletier/src/main/java/com/rdc/cmf/middletier/operation/impl/DropPmAlertCase.java
+U    cmf-middletier/src/main/java/com/rdc/cmf/middletier/services/SecurityManager.java
+U    cmf-middletier/src/main/java/com/rdc/cmf/middletier/services/UpdateService.java
+U    cmf-middletier/src/main/java/com/rdc/cmf/middletier/services/SecurityManagerImpl.java
+U    cmf-middletier/src/main/java/com/rdc/cmf/middletier/services/UpdateServiceImpl.java
+U    cmf-middletier/src/main/java/com/rdc/cmf/middletier/services/ETLServiceImpl.java
+D    cmf-middletier/src/main/java/com/rdc/cmf/middletier/services/AuditBuilder.java
+U    cmf-etl/src/main/java/com/rdc/cmf/etl/listener/RipProcessorDelegate.java
+U    cmf-etl/src/main/java/com/rdc/cmf/etl/listener/GridResponseListener.java
+ U   src/db/migration/libcmf-db-migration.bash
+A    src/db/migration/2015-06-release/CMF-762-RD00000T-RDC-admin-firm-initial-database-setup
+ U   src/db/migration
+ U   src/db
+ U   .
+--- Recording mergeinfo for merge between repository URLs into '.':
+ U   .
+ U   src/db
+ U   src/db/migration
+ U   src/db/migration/libcmf-db-migration.bash
+
+
 # # Backup SVN changed files
 $ svn st | awk '{ print $2}' | grep src | grep -v '/resources' | xargs -I f1 cp --parents f1 ~/tmp/tt
 
