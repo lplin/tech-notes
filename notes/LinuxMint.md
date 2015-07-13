@@ -1,3 +1,29 @@
+# Install Java in Firefox [...](https://www.java.com/en/download/help/enable_browser_ubuntu.xml)
+Mozilla Firefox
+Become the root user by running the su command and then enter the super-user password. Type: 
+sudo -s
+Create a directory called plugins if you do not have it. Type: 
+mkdir -p /usr/lib/mozilla/plugins
+Go to Mozilla plugins directory before you make the symbolic link. Type: 
+cd /usr/lib/mozilla/plugins
+Create a symbolic link. Type: 
+ln -s /usr/local/java/jre1.7.0/lib/amd64/libnpjp2.so
+Restart your browser and test Java
+
+Google Chrome
+Become the root user by running the su command and then enter the super-user password. Type: 
+sudo -s
+Create a directory called plugins if you do not have it. Type: 
+mkdir -p /opt/google/chrome/plugins
+Go to Google chrome plugins directory before you make the symbolic link. Type: 
+cd /opt/google/chrome/plugins
+Create a symbolic link. Type: 
+ln -s /usr/local/java/jre1.7.0/lib/amd64/libnpjp2.so
+Restart your browser and test Java
+
+
+
+
 # Internal SD card reader not mounted/detected HP realtek rts5227 [...](http://askubuntu.com/questions/492476/internal-sd-card-reader-not-mounted-detected-hp-realtek-rts5227)
 
 
