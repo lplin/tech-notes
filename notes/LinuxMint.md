@@ -1,3 +1,7 @@
+# Setup email server:
+https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-postfix-as-a-send-only-smtp-server-on-ubuntu-14-04
+
+
 # Install Java in Firefox [...](https://www.java.com/en/download/help/enable_browser_ubuntu.xml)
 Mozilla Firefox
 Become the root user by running the su command and then enter the super-user password. Type: 
