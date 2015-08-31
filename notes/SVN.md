@@ -1,3 +1,32 @@
+# Merge to the trunk
+lplin@dlm47 ~/projects/cmf/trunk $ svn merge --reintegrate ^/cmf/branches/reset-password-using-email
+--- Merging differences between repository URLs into '.':
+U    contrib/algo-dev-db-scripts/algo-cmf-normalize-passwords
+A    cmf-webapp/src/main/java/com/rdc/cmf/web/action/security/ResetPasswordAction.java
+U    cmf-webapp/src/main/java/com/rdc/cmf/web/action/admin/EditUserAction.java
+...
+
+
+# Merge from the trunk
+lplin@dlm47 ~/projects/cmf-branches/reset-password-using-email $ svn merge ^/cmf/trunk
+svn: E195020: Cannot merge into mixed-revision working copy [54679:54868]; try updating first
+lplin@dlm47 ~/projects/cmf-branches/reset-password-using-email $ svn up
+Updating '.':
+At revision 54884.
+lplin@dlm47 ~/projects/cmf-branches/reset-password-using-email $ svn merge ^/cmf/trunk
+--- Merging r54679 through r54884 into '.':
+U    cmf-webapp/src/main/java/com/rdc/cmf/web/action/report/RunReport2Action.java
+U    cmf-webapp/src/main/java/com/rdc/cmf/web/action/report/GetReportByTokenAction.java
+U    cmf-webapp/src/main/java/com/rdc/cmf/web/action/report/RunReportAction.java
+U    cmf-webapp/src/main/webapp/WEB-INF/pages/view/reports_view.jsp
+U    cmf-model/src/main/java/com/rdc/cmfmodel/model/type/ReportFormat.java
+U    cmf-middletier/src/main/java/com/rdc/cmf/middletier/services/report/formatters/ReportFormatterFactory.java
+U    src/changes/changes.xml
+--- Recording mergeinfo for merge of r54679 through r54884 into '.':
+ U   .
+lplin@dlm47 ~/projects/cmf-branches/reset-password-using-email $ 
+
+
 # Merge [...](http://svnbook.red-bean.com/en/1.7/svn.branchmerge.basicmerging.html)
 
 lplin@dlm47 ~/projects/cmf/branches/switch-users-without-their-password $ svn merge ^/cmf/trunk
