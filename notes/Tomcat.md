@@ -1,3 +1,9 @@
+# 5.5.26 Source:
+http://svn.apache.org/repos/asf/tomcat/archive/tc5.5.x/tags/TOMCAT_5_5_26/
+or
+http://olex.openlogic.com/packages/tomcat/5.5.26
+
+
 # mod_jk
 	apt-get install libapache2-mod-jk
 	dlm47 apache2 # cd /etc/libapache2-mod-jk/
