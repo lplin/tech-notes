@@ -13,9 +13,85 @@ Then:
 - [Getting Started](http://groovy.codehaus.org/Tutorial+1+-+Getting+started)
 - [Documentation](http://beta.groovy-lang.org/docs/latest/html/documentation/)
 - [Groovy JDK] ( http://groovy.codehaus.org/groovy-jdk ).
+- [Groovy with Eclipse - Tutorial](http://www.vogella.com/tutorials/Groovy/article.html#install_springgroovytools)
 
-# 
+# GVM (use jre 1.7 or above)
+curl -s get.gvmtool.net | bash
+gvm install groovy
+
+
+# Groovy SH
+String.metaClass.isPalindrome = {
+  delegate == delegate.reverse()
+}
+'mom'.isPalindrome()
+
+groovy:000> Math.sqrt(16)
+===> 4.0
+groovy:000> println 'Test drive Groovy'
+Test drive Groovy
+===> null
+groovy:000> String.metaClass.isPalindrome = {
+groovy:001>
+delegate == delegate.reverse()
+groovy:002> }
+===> groovysh_evaluate$_run_closure1@64b99636
+groovy:000> 'mom'.isPalindrome()
+===> true
+groovy:000> 'mom'.l<tab>
+lastIndexOf(
+leftShift(
+groovy:000> 'mom'.
+
+# Command Line
+> cat Hello.groovy
+println "Hello Groovy!"
+> groovy Hello
+Hello Groovy!
+
+
+groovy -e "println 'hello'"
+
+$ groovy -e 'println Math.sqrt(25)' (slow because of loading JVM)
+5.0
+
+
+# By Default
 Groovy automatically imports the following Java packages: java.lang , java.util , java.io , and java.net . It also imports the classes java.math.BigDecimal and java.math.BigInteger . In addition, the Groovy packages groovy.lang and groovy.util are imported.
 
 
 # SQL
+#!/usr/bin/env groovy
+@GrabConfig(systemClassLoader=true)
+@Grab(group='mysql', module='mysql-connector-java', version='5.1.18')
+@Grab(group='com.rdc.app', module='rdc-web-common', version='0.1.8')
+
+import groovy.sql.Sql
+import static com.rdc.web.util.OneWayEncrypter.*
+
+assert args.length == 4
+def (db_host, db_user, db_pass, db_name) = args
+println "jdbc:mysql://${db_host}:3306/${db_name}, " + db_user + ", " + db_pass
+def db = Sql.newInstance("jdbc:mysql://${db_host}:3306/${db_name}", db_user, db_pass, 'com.mysql.jdbc.Driver')
+
+println "user:"
+db.eachRow('SELECT user_id, password FROM user;') { row ->
+    userId = row['user_id']
+    pwd = row['password']
+    hash = createEncryptedPassword(pwd, Algorithm.SHA256);
+    println "\t ${userId}: ${hash}"
+    db.execute 'UPDATE user SET password_hash=? WHERE user_id=?', [hash, userId]
+}
+
+db.rows('select biz_unit_id from firm_config;').collect { it[0] }.each { bizUnitId ->
+    table = "user_password_history_${bizUnitId}"
+    q = "SELECT user_id, password, date FROM ${table};"
+    println "${bizUnitId}:"
+    db.eachRow(q.toString()) { row ->
+        userId = row['user_id']
+        pwd = row['password']
+        hash = createEncryptedPassword(pwd, Algorithm.SHA256);
+        println "\t ${userId}-'${row['date']}': ${hash}"
+        db.execute "UPDATE ${table} SET password_hash=? WHERE user_id=? AND date=?", [hash, userId, row['date']]
+    }
+}
