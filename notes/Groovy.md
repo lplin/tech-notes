@@ -1,3 +1,31 @@
+# Starting Groovy in listening mode:
+
+    view sourceprint?
+    $ groovy -l 9000 -e "println 'You say: ' + line"
+    groovy is listening on port 9000
+
+    $ telnet localhost 9000
+    Trying 127.0.0.1...
+    Connected to localhost.
+    Escape character is '^]'.
+    Groovy Rocks!
+    You say: Groovy Rocks! [ctrl + ] 
+    telnet> quit
+    Connection closed.
+
+
+    groovy -l -p -e "new GroovyShell().evaluate(line)"
+    lplin@dlm47 ~/rdc/tries/groovy/prog-groovy2 $ telnet localhost 1960
+    Trying 127.0.0.1...
+    Connected to localhost.
+    Escape character is '^]'.
+    3.times { println it }
+    ^]
+
+    telnet> quit
+    Connection closed.
+
+
 # download failed issue (corrupted downloads)
 	java.lang.RuntimeException: Error grabbing Grapes -- [download failed: org.freemarker#freemarker;2.3.19!freemarker.jar, download failed: commons-io#commons-io;2.0.1!commons-io.jar]
 First:
@@ -14,46 +42,6 @@ Then:
 - [Documentation](http://beta.groovy-lang.org/docs/latest/html/documentation/)
 - [Groovy JDK] ( http://groovy.codehaus.org/groovy-jdk ).
 - [Groovy with Eclipse - Tutorial](http://www.vogella.com/tutorials/Groovy/article.html#install_springgroovytools)
-
-# GVM (use jre 1.7 or above)
-curl -s get.gvmtool.net | bash
-gvm install groovy
-
-
-# Groovy SH
-String.metaClass.isPalindrome = {
-  delegate == delegate.reverse()
-}
-'mom'.isPalindrome()
-
-groovy:000> Math.sqrt(16)
-===> 4.0
-groovy:000> println 'Test drive Groovy'
-Test drive Groovy
-===> null
-groovy:000> String.metaClass.isPalindrome = {
-groovy:001>
-delegate == delegate.reverse()
-groovy:002> }
-===> groovysh_evaluate$_run_closure1@64b99636
-groovy:000> 'mom'.isPalindrome()
-===> true
-groovy:000> 'mom'.l<tab>
-lastIndexOf(
-leftShift(
-groovy:000> 'mom'.
-
-# Command Line
-> cat Hello.groovy
-println "Hello Groovy!"
-> groovy Hello
-Hello Groovy!
-
-
-groovy -e "println 'hello'"
-
-$ groovy -e 'println Math.sqrt(25)' (slow because of loading JVM)
-5.0
 
 
 # By Default
