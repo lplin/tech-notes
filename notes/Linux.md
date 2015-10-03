@@ -1,3 +1,25 @@
+# Crontab
+[Tut](http://code.tutsplus.com/tutorials/scheduling-tasks-with-cron-jobs--net-8800)
+Edit:
+
+	crontab -e
+	MAILTO="lplin@rdc.com"
+ 
+	 9 12 * * * tar --absolute-names -zvcf /home/lplin/bak/rdc-tasks-cron.tgz /home/lplin/rdc/sqls 
+List:
+
+	crontab -l
+Remove:
+
+	crontab -r
+Loading a File
+You can write all of your cron jobs into a file and then push it into the crontab:
+
+	crontab cron.txt
+Be careful, because this will overwrite all existing cron jobs with this files contents, without warning.
+
+
+
 # Enable the mounting of ext2/3 file systems on a Windows machine [...](http://www.techrepublic.com/blog/tr-dojo/enable-the-mounting-of-ext2-3-file-systems-on-a-windows-machine/)
 
 Install [Ext2Fsd](http://www.ext2fsd.com/)
