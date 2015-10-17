@@ -1,3 +1,12 @@
+# Debug Grape
+[rdcapp@s0-plftp00 bin]$ ~/opt/groovy-2.4.5/bin/groovy -Dhttp.proxyHost=r0-plproxy00 -Dhttp.proxyPort=8080 -Dgroovy.grape.report.downloads=true -Divy.message.logger.level=4 ./HsbcSftpPullTask.groovy 
+
+
+# Change dir (cd) in Groovy
+
+println "ls -la".execute(null, new File("/tmp")).text
+
+
 # Starting Groovy in listening mode:
 
     view sourceprint?
