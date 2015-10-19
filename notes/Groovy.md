@@ -1,3 +1,7 @@
+# # groovyConsole  with VM options:
+  $ export JAVA_OPTS=-Drdc.config=rdc-HS80000T
+  $ groovyConsole ./HsbcSftpPullTask.groovy &
+
 # Debug Grape
 [rdcapp@s0-plftp00 bin]$ ~/opt/groovy-2.4.5/bin/groovy -Dhttp.proxyHost=r0-plproxy00 -Dhttp.proxyPort=8080 -Dgroovy.grape.report.downloads=true -Divy.message.logger.level=4 ./HsbcSftpPullTask.groovy 
 
