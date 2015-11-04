@@ -1,4 +1,15 @@
-# # groovyConsole  with VM options:
+# Evaluate string
+    def str = '../work/dropzone/${firmNumber}/upload/regular' 
+    def firmNumber = 'RD03000T' 
+    //def tempstr = evaluate(/"$str"/) // Works!
+    //def GString tempstr = "${-> str}" // Doesn't work
+    //def tempstr = /${-> str}/ // Doesn't work
+
+    def str1 = '../work/dropzone/${-> firmNumber}/upload/regular' 
+    def closure = { it.write(str1) }
+    println " ${closure}" // None works
+
+# groovyConsole  with VM options:
   $ export JAVA_OPTS=-Drdc.config=rdc-HS80000T
   $ groovyConsole ./HsbcSftpPullTask.groovy &
 
