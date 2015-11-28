@@ -1,3 +1,41 @@
+# Broken packages:
+	sudo apt-get -f install
+	did just fine. Problem solved.
+From: http://forums.linuxmint.com/viewtopic.php?f=198&t=145926
+
+
+lplin@hp110nr /etc/apt $ sudo apt-get install software-properties-common
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+You might want to run 'apt-get -f install' to correct these:
+The following packages have unmet dependencies:
+ libc6 : Breaks: locales (< 2.19) but 2.13+git20120306-12.1 is to be installed
+ libc6:i386 : Breaks: locales (< 2.19) but 2.13+git20120306-12.1 is to be installed
+ software-properties-common : Depends: python3-software-properties (= 0.92.37.6) but 0.92.37.3 is to be installed
+E: Unmet dependencies. Try 'apt-get -f install' with no packages (or specify a solution).
+lplin@hp110nr /etc/apt $ sudo apt-get -f install 
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+Correcting dependencies... Done
+The following packages will be REMOVED:
+  language-pack-en language-pack-en-base language-pack-gnome-en
+  language-pack-gnome-en-base locales ubuntu-minimal
+0 upgraded, 0 newly installed, 6 to remove and 671 not upgraded.
+After this operation, 22.2 MB disk space will be freed.
+Do you want to continue? [Y/n] Y
+(Reading database ... 297938 files and directories currently installed.)
+Removing ubuntu-minimal (1.325) ...
+Removing language-pack-gnome-en-base (1:14.04+20140707) ...
+Removing language-pack-en-base (1:14.04+20140707) ...
+Removing locales (2.13+git20120306-12.1) ...
+Removing language-pack-gnome-en (1:14.04+20141110) ...
+Removing language-pack-en (1:14.04+20141110) ...
+Processing triggers for man-db (2.6.7.1-1ubuntu1) ...
+
+
+
 # Setup email server:
 https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-postfix-as-a-send-only-smtp-server-on-ubuntu-14-04
 
