@@ -1,3 +1,8 @@
+# awk lines to space separated
+[How can I trim white space from a variable in awk?](http://stackoverflow.com/questions/9985528/how-can-i-trim-white-space-from-a-variable-in-awk)
+$ awk '{gsub(/[ \t]+$/, "", $1); print $1 " "}'
+
+
 # Crontab
 [Tut](http://code.tutsplus.com/tutorials/scheduling-tasks-with-cron-jobs--net-8800)
 Edit:

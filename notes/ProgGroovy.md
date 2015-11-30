@@ -1964,7 +1964,7 @@ We can perform updates and deletions in a similar way by issuing the appropriate
 ## The Melting Pot of Java and Groovy
 To pull a Groovy script into our Groovy code, we can use GroovyShell . To use it from within our Java classes, we can use the ScriptEngine API provided by JSR 223. If we want to use a Groovy class from within a Java class, or vice versa, we can take advantage of the Groovy joint-compilation facility.
 
-## Running Groovy
+## Running Groovy using Java
 to create bytecode—the .class file—we can do that using the groovyc compiler. To execute the bytecode, we’ll use the java command just like we would to execute our compiled Java code. The only difference is that we need to have the groovy-all-2.1.0.jar file in the classpath.
 
 If our code has a package declaration, then the file will be created in the appropriate directory following the Java package-directory format. Unlike Groovy classes, Groovy scripts usually don’t have package declarations. Use the -d option to specify a destination directory other than the current directory. We can run the bytecode by typing this:
@@ -1973,3 +1973,6 @@ If our code has a package declaration, then the file will be created in the appr
 	println (['Groovy', 'Rocks!'].join(' '))
 	 $ java -classpath /home/lplin/.sdkman/groovy/current/embeddable/groovy-all-2.4.5.jar:. Greet
 	Groovy Rocks!
+
+## Using Groovy Classes from Groovy
+Groovy looks for the .groovy file with the name of the class in our classpath ; if it does not find it, it looks for a .class file with the same name.
