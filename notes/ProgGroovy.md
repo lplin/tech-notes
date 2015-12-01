@@ -1975,4 +1975,17 @@ If our code has a package declaration, then the file will be created in the appr
 	Groovy Rocks!
 
 ## Using Groovy Classes from Groovy
+	lplin@dlm47 ~/tmp $ cat src/Car.groovy 
+	class Car {
+	  int year = 2008, miles
+	  String toString() { "Car(year: $year, miles:$miles)" }
+	}
+
+	lplin@dlm47 ~/tmp $ cat > useCar.groovy
+	println new Car()
+	
+	lplin@dlm47 ~/tmp $ groovy -cp src useCar
+	Car(year: 2008, miles:0)
 Groovy looks for the .groovy file with the name of the class in our classpath ; if it does not find it, it looks for a .class file with the same name.
+
+## Intermixing Groovy and Java with Joint Compilation

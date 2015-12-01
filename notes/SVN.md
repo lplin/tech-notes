@@ -1,3 +1,41 @@
+# Revision diff:
+https://jira.rdc.com/browse/CMF#selectedTab=com.atlassian.jira.plugin.ext.subversion%3Asubversion-project-tab
+
+http://svn.rdc.com/viewvc/java/rdc-web-common/tags/
+tags/rdc-web-common-0.1.4/	 42064
+tags/rdc-web-common-0.1.8/	 48840 
+trunk/	 48841
+
+svn diff -r 42064:48840 http://svn.rdc.com/java/rdc-web-common/trunk
+Index: src/test/java/com/rdc/web/util/ValidationUtilsTest.java
+===================================================================
+--- src/test/java/com/rdc/web/util/ValidationUtilsTest.java	(revision 0)
++++ src/test/java/com/rdc/web/util/ValidationUtilsTest.java	(revision 48840)
+==>
+http://svn.rdc.com/viewvc/java/rdc-web-common/tags/rdc-web-common-0.1.8/src/test/java/com/rdc/web/util/ValidationUtilsTest.java?view=diff&r1=0&r2=48840&diff_format=h ==> Error
+==>
+http://svn.rdc.com/viewvc/java/rdc-web-common/tags/rdc-web-common-0.1.8/src/test/java/com/rdc/web/util/ValidationUtilsTest.java 48041:48840
+http://svn.rdc.com/viewvc/java/rdc-web-common/tags/rdc-web-common-0.1.8/src/test/java/com/rdc/web/util/ValidationUtilsTest.java?view=diff&r1=48041&r2=48840&diff_format=h
+==> Or simply
+http://svn.rdc.com/viewvc/java/rdc-web-common/tags/rdc-web-common-0.1.8/src/test/java/com/rdc/web/util/ValidationUtilsTest.java?revision=48840&view=markup
+
+--- src/main/java/com/rdc/web/security/RdcSecurityIpWhitelistInterceptor.java	(revision 42064)
++++ src/main/java/com/rdc/web/security/RdcSecurityIpWhitelistInterceptor.java	(revision 48840)
+http://svn.rdc.com/viewvc/java/rdc-web-common/tags/rdc-web-common-0.1.8/src/main/java/com/rdc/web/security/RdcSecurityIpWhitelistInterceptor.java?view=diff&r1=42064&r2=48840&diff_format=h
+
+--- src/main/java/com/rdc/web/security/RdcSecurityInterceptor.java	(revision 42064)
++++ src/main/java/com/rdc/web/security/RdcSecurityInterceptor.java	(revision 48840)
+http://svn.rdc.com/viewvc/java/rdc-web-common/tags/rdc-web-common-0.1.8/src/main/java/com/rdc/web/security/RdcSecurityInterceptor.java?view=diff&r1=42064&r2=48840&diff_format=h
+
+--- src/main/java/com/rdc/web/util/ValidationUtils.java	(revision 42064)
++++ src/main/java/com/rdc/web/util/ValidationUtils.java	(revision 48840)
+http://svn.rdc.com/viewvc/java/rdc-web-common/tags/rdc-web-common-0.1.8/src/main/java/com/rdc/web/util/ValidationUtils.java?view=diff&r1=42064&r2=48840&diff_format=h
+
+
+--- pom.xml	(revision 42064)
++++ pom.xml	(revision 48840)
+http://svn.rdc.com/viewvc/java/rdc-web-common/tags/rdc-web-common-0.1.8/pom.xml?view=diff&r1=42064&r2=48840&diff_format=h
+
 # Merge to the trunk
 lplin@dlm47 ~/projects/cmf/trunk $ svn merge --reintegrate ^/cmf/branches/reset-password-using-email
 --- Merging differences between repository URLs into '.':
