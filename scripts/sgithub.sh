@@ -1,6 +1,4 @@
 #!/bin/bash
-cd $HOME/gits/lplin/scm-test1
+NOTE_DIR=/data/gits/lplin/tech-notes
+cd $NOTE_DIR
 git pull origin master
-rm -rf $HOME/tmp/rdc-`date +%a`/
-mv $HOME/rdc/ $HOME/tmp/rdc-`date +%a`/
-7z x jiras.7z -o$HOME/rdc
