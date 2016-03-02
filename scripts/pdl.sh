@@ -11,3 +11,4 @@ cd $NOTE_DIR
 git commit -am "Push at "`date +%Y-%m-%d.%H:%M:%S`
 git push origin master
 echo "===> OK tech-notes pushed to github.com
+
