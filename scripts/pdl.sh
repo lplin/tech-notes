@@ -1,10 +1,10 @@
-SRC_DIR=s1-dlapp07:/home/lplin/tests/cmf-app/RD09000P
-rsync -avz --progress --delete /data/rdc $SRC_DIR
+DL_DIR=s1-dlapp07:/home/lplin/tests/cmf-app/RD09000P
+rsync -avz --progress --delete /data/rdc $DL_DIR
 echo "===> OK pushed to dlapp:rdc"
 echo
 
 NOTE_DIR=/data/gits/lplin/tech-notes
-rsync -avz --progress --delete --exclude '.git' $NOTE_DIR $SRC_DIR
+rsync -avz --progress --delete --exclude '.git' $NOTE_DIR $DL_DIR
 echo "===> OK pushed to dlapp:tech-notes"
 echo
 cd $NOTE_DIR
