@@ -1,3 +1,15 @@
+# Patch:
+
+lplin@dlm47 ~/projects/cmf/trunk $ svn diff -c 57631 > ../debug-operations.diff
+lplin@dlm47 ~/projects/cmf/trunk $ patch -R -p0 -i ../debug-operations.diff 
+patching file src/db/migration/2016-01-release/CMF-826-add-CIT-operations
+(From: https://ariejan.net/2007/07/03/how-to-create-and-apply-a-patch-with-subversion/)
+(03:22:15 PM) Alan D. Salewski: In a nutshell you edit the source code to remove the "(0)" and "(C)" bits and (ideally) make a single svn commit
+(03:22:57 PM) Alan D. Salewski: That would allow us to then do 'svn diff -c <REVSION>' (or some variant of that) to make a patch, which...
+(03:22:58 PM) lplin1@s1-plim00/2o9f26dd84: Already done, a minute ago.
+(03:23:09 PM) Alan D. Salewski: we would then apply with 'patch -R...'
+
+
 # Revision diff:
 https://jira.rdc.com/browse/CMF#selectedTab=com.atlassian.jira.plugin.ext.subversion%3Asubversion-project-tab
 
