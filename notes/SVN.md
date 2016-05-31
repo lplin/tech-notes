@@ -1,3 +1,7 @@
+#
+$ svn diff http://svn/java/cmf/branches/cmf-3.0.12-hotfixes -r 58254:58795  > ../t.diff
+
+
 # Backward:
 
 If you simply want to go back to an other revision, update it's what you are looking for.
