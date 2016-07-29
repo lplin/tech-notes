@@ -49,3 +49,42 @@ Mean 3rd Qu.
 22.80
 > stats
 Error: object 'stats' not found
+
+# dollar sign ($)
+The period (.) has no special significance in object names. The dollar sign ($) has a somewhat analogous meaning to the period in other object-oriented lan-
+guages and can be used to identify the parts of a data frame or list. For example, A$x refers to variable x in data frame A.
+
+# block comments
+R doesn’t provide multiline or block comments. You must start each line of a multiline comment with #. For debugging purposes, you can also surround code that you want the interpreter to ignore with the statement if(FALSE){...}. Changing the FALSE to TRUE allows the code to be executed.
+
+# Assigning a value to a nonexistent element of a vector, matrix, array, or list expands that structure to accommodate the new value. For example, consider the following:
+> x <- c(8, 6, 4)
+> x[7] <- 10
+> x
+[1] 8 6 4 NA NA NA 10
+
+# Scalars
+R doesn’t have scalar values. Scalars are represented as one-element vectors.
+
+# Declare
+Variables can’t be declared. They come into existence on first assignment.
+
+# Importing data via connections
+Many of the examples in this chapter import data from files that exist on your computer. R provides several mechanisms for accessing data via connections as well. For example, the functions file(), gzfile(), bzfile(), xzfile(), unz(), and url() can be used in place of the filename. The file() function allows you to access files, the clipboard, and C-level standard input. The gzfile(), bzfile(), xzfile(), and unz() functions let you read compressed files.
+
+# installing xlsx package (Cannot compile a simple JNI program on Debian)<http://stackoverflow.com/questions/22042914/cannot-compile-a-simple-jni-program-on-debian-wheezhy>
+I had a similar problem while installing xlsx package that has some dependencies maybe related to java and r java packages...
+
+In order to solve your problem you have to: - check environment variables $JAVA_HOME and $PATH - sudo R CMD javareconf
+
+If it doesn't help, try out my configuration with java-7-oracle,
+
+install java-7-oracle via webupd8 repository Installing Java 7 (Oracle) in Debian via apt-get
+set environment variables $JAVA_HOME and $PATH
+export JAVA_HOME=/usr/lib/jvm/java-7-oracle
+export PATH=$PATH:$JAVA_HOME/bin
+sudo update-java-alternatives -s java-7-oracle
+sudo R CMD javareconf
+and than retry the installation of rjava
+
+I hope it will help you!
