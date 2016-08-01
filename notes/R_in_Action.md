@@ -88,3 +88,13 @@ sudo R CMD javareconf
 and than retry the installation of rjava
 
 I hope it will help you!
+
+
+P85D: 691 hp (515 kW) => 463 hp (345 kW) because the two motors do not give their maximum power at the same time
+The 2012 Tesla Model S Performance model has a three phase, four pole AC induction 416 hp (310 kW)
+
+The 60 kWh electric vehicle battery was rated to deliver 230 miles (370 km), while an 85 kWh battery was rated at 320 miles (510 km)
+The 85 kWh battery pack weighs 1,200 lb (540 kg).
+contains 7,104 lithium-ion battery cells in 16 modules[79] wired in series 
+
+ Panasonic NCR18650B cell that has an energy density of 265 Wh/kg.
